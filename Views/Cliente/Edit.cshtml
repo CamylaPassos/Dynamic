@@ -1,0 +1,17 @@
+﻿@model Dynamic.Models.Cliente
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Cliente</h4>
+<hr />
+<form asp-action="Edit">
+    @await Html.PartialAsync("_shared")
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

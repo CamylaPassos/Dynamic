@@ -15,11 +15,16 @@ namespace Mechanics.Configuration
         }
 
         public virtual DbSet<Test> Test { get; set; }
-
+        public virtual DbSet<Cliente> Cliente { get; set; }
+        public virtual DbSet<Carro> Carro { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new TestConfiguration());
+            modelBuilder.ApplyConfiguration(new ClienteConfiguration());
+            modelBuilder.ApplyConfiguration(new CarroConfiguration());
         }
+
+        
     }
 }

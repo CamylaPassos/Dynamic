@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Dynamic.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Cliente</h1>
+
+<p>
+    <a class="btn btn-warning" asp-action="Create" role="button">Novo Cadastro</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cpf)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataNascimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sexo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cpf)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataNascimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sexo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+
+                    <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id" role="button">Detalhe</a>
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id" role="button">Editar</a>
+                    <a class="btn btn-danger" onclick="deletar('@item.Id')" role="button">Excluir</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@await Html.PartialAsync("../Util/ModalConfirmacao")
+@section Scripts {
+    <script>
+        function deletar(id) {
+            $('#myModal').modal('show');
+            $('button#confirm').click(function (e) {
+                $('#myModal').modal('hide');
+                $.ajax({
+                    method: "POST",
+                    url: "/Cliente/Deletar",
+                    data: { id: id },
+                    success: function (result) {
+                        location.reload();
+                    },
+                })
+            });
+        }
+    </script>
+}

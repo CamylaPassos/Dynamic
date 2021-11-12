@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Dynamic.Models.Carro>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Carro</h1>
+
+<p>
+    <a class="btn btn-warning" asp-action="Create" role="button">Novo Cadastro</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Marca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modelo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Marca)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Modelo)
+                </td>
+                <td>
+
+                    <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id" role="button">Detalhe</a>
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id" role="button">Editar</a>
+                    <a class="btn btn-danger" onclick="deletar('@item.Id')" role="button">Excluir</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@await Html.PartialAsync("../Util/ModalConfirmacao")
+@section Scripts {
+    <script>
+        function deletar(id) {
+            $('#myModal').modal('show');
+            $('button#confirm').click(function (e) {
+                $('#myModal').modal('hide');
+                $.ajax({
+                    method: "POST",
+                    url: "/Carro/Deletar",
+                    data: { id: id },
+                    success: function (result) {
+                        location.reload();
+                    },
+                })
+            });
+        }
+    </script>
+}
+
